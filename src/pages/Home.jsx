@@ -1,25 +1,56 @@
-import { PageShell } from "@/components/common/PageShell";
-import { HeroSection } from "@/features/hero/Hero";
-import { courses } from "@/data/courses";
-import { testimonials } from "@/data/testimonials";
-import { CoursesGrid } from "@/features/courses/CoursesGrid";
-import { TestimonialsList } from "@/features/testimonials/TestimonialsList";
+import { useEffect, useMemo, useState } from "react";
+import { Hero } from "@/features/hero/Hero";
+import { NavbarDock } from "@/features/navbar/NavbarDock";
+import { About } from "@/features/about/About";
+import { CoursesPreview } from "@/features/courses/CoursesPreview";
+import { Testimonials } from "@/features/testimonials/Testimonials";
+import { Contact } from "@/features/contact/Contact";
+import { Footer } from "@/features/footer/Footer";
+import { StarBackground } from "@/components/common/Background";
 
-export const Home = () => (
-  <PageShell>
-    <HeroSection />
-    <section className="container py-14">
-      <h2 className="text-2xl font-bold">Featured Courses</h2>
-      <p className="mt-2 text-muted-foreground">Start with our most popular learning paths.</p>
-      <div className="mt-6"><CoursesGrid courses={courses.slice(0, 3)} /></div>
-    </section>
-    <section className="container py-14">
-      <h2 className="text-2xl font-bold">About the Academy</h2>
-      <p className="mt-2 text-muted-foreground max-w-3xl">Dev Fraol Academy is focused on practical tech education, portfolio-ready projects, and mentorship that helps learners move from theory to real development work.</p>
-    </section>
-    <section className="container py-14">
-      <h2 className="text-2xl font-bold">Student Testimonials</h2>
-      <div className="mt-6"><TestimonialsList testimonials={testimonials} /></div>
-    </section>
-  </PageShell>
-);
+const observedSections = ["hero", "about", "courses", "testimonials", "contact"];
+
+export const Home = () => {
+  const [activeSection, setActiveSection] = useState("hero");
+  const sections = useMemo(() => observedSections, []);
+
+  useEffect(() => {
+    const observers = sections
+      .map((id) => document.getElementById(id))
+      .filter(Boolean)
+      .map((section) =>
+        new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setActiveSection(entry.target.id);
+            }
+          },
+          { threshold: 0.45 }
+        )
+      );
+
+    observers.forEach((observer, index) => {
+      const section = document.getElementById(sections[index]);
+      if (section) {
+        observer.observe(section);
+      }
+    });
+
+    return () => observers.forEach((observer) => observer.disconnect());
+  }, [sections]);
+
+  return (
+    <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+      <StarBackground />
+      <div className="relative z-10 text-center">
+        <Hero />
+        <About />
+        <CoursesPreview />
+        <Testimonials />
+        <Contact />
+        <Footer />
+        <NavbarDock activeSection={activeSection} />
+      </div>
+    </div>
+  );
+};
