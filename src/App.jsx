@@ -1,11 +1,16 @@
 import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
-import { Home } from "./pages/Home";
-import { NotFound } from "./pages/NotFound";
 import { Toaster } from "@/components/ui/toaster";
 import WelcomeScreen from "@/components/WelcomeScreen";
-import { Analytics } from "@vercel/analytics/react"; 
+import { Analytics } from "@vercel/analytics/react";
+import Home from "@/pages/Home";
+import About from "@/pages/About";
+import Skills from "@/pages/Skills";
+import Projects from "@/pages/Projects";
+import Testimonials from "@/pages/Testimonials";
+import Contact from "@/pages/Contact";
+import NotFound from "@/pages/NotFound";
 
 function App() {
   const [welcomeComplete, setWelcomeComplete] = useState(false);
@@ -21,13 +26,18 @@ function App() {
       {!welcomeComplete ? (
         <WelcomeScreen onWelcomeComplete={() => setWelcomeComplete(true)} />
       ) : (
-        <BrowserRouter>
+        <Router>
           <Routes>
-            <Route index element={<Home />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/skills" element={<Skills />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/testimonials" element={<Testimonials />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Analytics />
-        </BrowserRouter>
+        </Router>
       )}
     </ThemeProvider>
   );

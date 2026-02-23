@@ -1,6 +1,9 @@
 import { ArrowRight, ExternalLink, Github, ChevronUp, Star, Code, ChevronDown, MoveRight, Filter, Sparkles, Award, Zap, Play, Eye, Calendar, Users, X } from "lucide-react";
 import { useState, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+
+const MotionLink = motion(Link);
 
 const projects = [
   {
@@ -497,15 +500,15 @@ export const ProjectsSection = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <motion.a
-                href="#contact"
+              <MotionLink
+                to="/contact"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300"
               >
                 Contact Me
                 <ArrowRight size={18} />
-              </motion.a>
+              </MotionLink>
               
               <motion.a
                 href="https://github.com/sahilmd01"
