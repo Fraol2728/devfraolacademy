@@ -1,26 +1,29 @@
 export const testimonials = [
-    {
-      id: 1,
-      name: "Alex Johnson",
-      role: "Product Director at TechCorp",
-      content: `Working with Sahil was seamless from day one. Not only did they deliver a full-stack solution ahead of schedule, but they also communicated clearly throughout the project. It's rare to find a developer who understands both the tech and the business side so well`,
-      rating: 5,
-      image: "/testimonials/alex-johnson.png"
-    },
-    {
-      id: 2,
-      name: "Maria Chen",
-      role: "Senior UX Designer at DesignHub",
-      content: `I've reviewed hundreds of portfolios, and his work is truly exceptional. Tway the animations guide attention while maintaining performance is masterful. The gradient elements add depth without overwhelming.`,
-      rating: 5,
-      image: "/testimonials/maria-chen.png"
-    },
-    {
-      id: 3,
-      name: "David Wilson",
-      role: "CTO at Startup Ventures",
-      content: `From wireframes to deployment, Sahil owned the entire stack with confidence and creativity. The final product is fast, reliable, and looks incredible. I wouldn't hesitate to work with them again.`,
-      rating: 5,
-      image: "/testimonials/David Wilson.png"
-    },
-  ];
+  {
+    id: 1,
+    name: "Aisha Rahman",
+    role: "Frontend Developer",
+    content:
+      "The structure at Dev Fraol Academy helped me move from tutorial fatigue to shipping real projects.",
+    rating: 5,
+    image: "/logo.png"
+  },
+  {
+    id: 2,
+    name: "Ritvik Sharma",
+    role: "Computer Science Student",
+    content:
+      "Clear mentorship, weekly feedback, and practical assignments made the learning curve manageable.",
+    rating: 5,
+    image: "/logo.svg"
+  },
+  {
+    id: 3,
+    name: "Neha Kapoor",
+    role: "Career Switcher",
+    content:
+      "I joined with little confidence and now have a portfolio of deployable apps plus interview readiness.",
+    rating: 5,
+    image: "/profile-logo.png"
+  }
+];
