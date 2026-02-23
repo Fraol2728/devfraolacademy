@@ -1,5 +1,7 @@
 import * as React from "react";
 
+/** @typedef {"default" | "destructive" | "success"} ToastVariant */
+
 const TOAST_LIMIT = 1;
 const TOAST_REMOVE_DELAY = 1000000;
 
@@ -92,6 +94,9 @@ function dispatch(action) {
   });
 }
 
+/**
+ * @param {{ title?: string; description?: string; variant?: ToastVariant; className?: string; action?: any }} props
+ */
 function toast(props) {
   const id = genId();
 
