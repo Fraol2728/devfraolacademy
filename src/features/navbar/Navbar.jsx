@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   Home,
   User,
@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useActiveSection } from "@/hooks/useActiveSection";
+import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 
 const navItems = [
   { name: "Home", href: "#hero", icon: Home },
@@ -28,6 +30,8 @@ const navItems = [
   { name: "Contact", href: "#contact", icon: Mail },
   { name: "Blog", href: "https://blogni.vercel.app", icon: BookOpen },
 ];
+
+const navSectionIds = navItems.map((item) => item.href);
 
 const ThemeToggle = () => {
   const [theme, setTheme] = useState("light");
@@ -60,83 +64,8 @@ const ThemeToggle = () => {
 };
 
 export const Navbar = () => {
-  const [activeSection, setActiveSection] = useState("#hero");
-  const [showNavbar, setShowNavbar] = useState(true);
-  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
-  const [isAudioReady, setIsAudioReady] = useState(false);
-  const lastScrollYRef = useRef(0);
-  const audioRef = useRef(null);
-
-  const musicUrl = "/music.mp3";
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      audioRef.current = new Audio(musicUrl);
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.5;
-      audioRef.current.preload = "auto";
-
-      const handleCanPlay = () => setIsAudioReady(true);
-
-      audioRef.current.addEventListener("canplaythrough", handleCanPlay);
-
-      return () => {
-        if (audioRef.current) {
-          audioRef.current.pause();
-          audioRef.current.removeEventListener("canplaythrough", handleCanPlay);
-          audioRef.current = null;
-        }
-      };
-    }
-  }, []);
-
-  const toggleMusic = () => {
-    if (!audioRef.current || !isAudioReady) return;
-
-    if (isMusicPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play().catch(console.error);
-    }
-
-    setIsMusicPlaying(!isMusicPlaying);
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollYRef.current && currentScrollY > 100) {
-        setShowNavbar(false);
-      } else {
-        setShowNavbar(true);
-      }
-
-      lastScrollYRef.current = currentScrollY;
-
-      const sections = navItems.map((item) => item.href);
-      const scrollPosition = currentScrollY + 100;
-
-      for (const section of sections) {
-        const element = document.querySelector(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetHeight = element.offsetHeight;
-
-          if (
-            scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + offsetHeight
-          ) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const { activeSection, showNavbar } = useActiveSection(navSectionIds);
+  const { isPlaying: isMusicPlaying, toggle: toggleMusic } = useAudioPlayer("/music.mp3");
 
   return (
     <>
